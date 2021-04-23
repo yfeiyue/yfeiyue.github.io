@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yfeiyue.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.7 问题1.c是一种自由形式的语言，也就是说，并没有规则规定它的外观究竟应该怎么。但本章的例子程序遵循了一定的空白使用规则。你对此有何想法？ 123A: 很显然，规则格式更有利于代码的阅读与维护。一堆没办法阅读的代码质量就跟一堆💩没区别。    2.把声明（如函当选原型的声明）放在文件头中，并在需要时用#include指定把它们包含于源文件中，这种做法有什么好处？ 123A: 这样可以避免重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c与指针第一章练习">
+<meta property="og:url" content="https://yfeiyue.com/2018/11/21/c%E4%B8%8E%E6%8C%87%E9%92%88%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:site_name" content="CodeMan">
+<meta property="og:description" content="1.7 问题1.c是一种自由形式的语言，也就是说，并没有规则规定它的外观究竟应该怎么。但本章的例子程序遵循了一定的空白使用规则。你对此有何想法？ 123A: 很显然，规则格式更有利于代码的阅读与维护。一堆没办法阅读的代码质量就跟一堆💩没区别。    2.把声明（如函当选原型的声明）放在文件头中，并在需要时用#include指定把它们包含于源文件中，这种做法有什么好处？ 123A: 这样可以避免重">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-11-21T13:45:02.000Z">
+<meta property="article:modified_time" content="2019-11-25T14:11:02.000Z">
+<meta property="article:author" content="Yang Feiyue">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yfeiyue.com/2018/11/21/c%E4%B8%8E%E6%8C%87%E9%92%88%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>c与指针第一章练习 | CodeMan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CodeMan</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2018/11/21/c%E4%B8%8E%E6%8C%87%E9%92%88%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          c与指针第一章练习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-21 21:45:02" itemprop="dateCreated datePublished" datetime="2018-11-21T21:45:02+08:00">2018-11-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-25 22:11:02" itemprop="dateModified" datetime="2019-11-25T22:11:02+08:00">2019-11-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1-7-问题"><a href="#1-7-问题" class="headerlink" title="1.7 问题"></a>1.7 问题</h3><p>1.c是一种自由形式的语言，也就是说，并没有规则规定它的外观究竟应该怎么。但本章的例子程序遵循了一定的空白使用规则。你对此有何想法？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">A: 很显然，规则格式更有利于代码的阅读与维护。一堆没办法阅读的代码质量就跟一堆💩没区别。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.把声明（如函当选原型的声明）放在文件头中，并在需要时用#include指定把它们包含于源文件中，这种做法有什么好处？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">A: 这样可以避免重复的声明代码。也有利于代码块重用。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.使用#define指令给字面值常量取名有什么好处？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A: 有两个原因</span><br><span class="line">1. 如果在不同的地方引用了常量，后续改动常量只需要在define处改动即可，不需要满到处改定义值。 </span><br><span class="line">2. define指令可以给常值赋予有意义的名字，以达到见名知义的作用。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.依次打印一个十进制整数、字符串和浮点值，你应该在printf函数中分别使用什么格式代码？试编一例，让这些打印值以空格分隔，并在输出行的末尾加一个换行符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">	printf(&quot;%d %s %g \n&quot;,6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br>6 £∆Ø·˛ 0 </p>
+<hr>
+<p>Q: 新问题出来了为什么以字符串打印会是乱码呢？</p>
+<p>5.编写一条scanf语句，它需要读取两个整数，分别保存于quantity和nice变量，然后再读取一个字符串，保存在一个名叫department的字符数组中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">	int quantity;</span><br><span class="line">	int nice;</span><br><span class="line">	char department[100];</span><br><span class="line">	</span><br><span class="line">	scanf(&quot;%d&quot;,&amp;quantity);</span><br><span class="line">	scanf(&quot;%d&quot;,&amp;nice);</span><br><span class="line">	printf(&quot;quantity: %d\tnice:%d\n&quot;,quantity,nice);</span><br><span class="line">	</span><br><span class="line">	scanf(&quot;%s&quot;,&amp;department);</span><br><span class="line">	printf(&quot;department:%s&quot;,department);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出结果：<br>12<br>23<br>quantity: 12    nice:23<br>test<br>department:test</p>
+<hr>
+<ol start="6">
+<li>Ｃ语言并不执行数组下标的有效性检查。你觉得为什么这个明显的安全手段会从语言中省略？</li>
+</ol>
+<ol start="7">
+<li>本章描述的rearrange程序包含下面的语句</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">strncpy</span>(output _ output_col, input + columns[col],nchars);</span><br></pre></td></tr></table></figure>
+<p>strcpy函数只接受两个参数，所以它实际上所复制的字符数由第2个参数指定。在本程序中，如果用strcpy函数取代strncpy函数会出现什么结果？</p>
+<p>8.rearrange程序包含下面的语句</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>( gets(input) != <span class="literal">NULL</span>)&#123;</span><br></pre></td></tr></table></figure>
+<p>你认为这段代码可能会出现什么问题？</p>
+<h3 id="1-8编程练习"><a href="#1-8编程练习" class="headerlink" title="1.8编程练习"></a>1.8编程练习</h3><ol>
+<li><p>“Hello world!” 程序常常是C编程新手所编写的第一个程序。它在标准输出中打印Hello world!,并在后面添加一个换行符。当你希望摸索出如何在自己的系统中运行Ｃ编译器时，这个小程序往往是一个很好的测试例。</p>
+</li>
+<li><p>编写一个程序，从标准输入读取几行输入。每行输入都要打印到标准输出上，前面要加上行号。在编写这个程序是要试图让程序能够处理的输入行的长度没有限制。</p>
+</li>
+<li><p>编写一个程序，从标准输入读取一些字符，并把它们写到标准输出上。它同时应该计算checksum值，并写在字符的后面。checksum(检验和）用一个singed char类型的变量进行计算，它初始为－1.当每个字符从标准输入读取时，它的值就被加到checksum中。如果checksum变量产生了溢出，那么这些溢出就会被忽略。当所有的字符均被写入后，程序以十进制整数的形式打印出checksum的值，它有可能是负值。注意在checksum后面要添加一个换行符。在使用ASCII码的计算机中，在包含”Hello world!”这几个词并以换行符结尾的文件上运行这个程序应该产生下列输出：<br> Hello world!<br> 102</p>
+</li>
+<li><p>编写一个程序，一行一行地读取输入行，直至到达文件尾。算出每行输入行的长度，然后把最长的那行打印出来。为了简单起见，你可以假定所有的输入行不超过100个字符。</p>
+</li>
+<li><p>rearrange程序中的下列语句</p>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( columns[col] &gt;= len ...)</span><br><span class="line">	<span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>当字符的列范围超出输入行的末尾时就停止复制，这条语句只有当列范围以递境顺序出现时才是正确的，但事上并不一定如此。请修改这条语句，即使列范围不是按顺序读取也能正确完成任务。</p>
+<ol start="6">
+<li>修改rearrange程序，去除输入中列标号的个数必须是偶数的限制。 如果读入的列桔为奇数个，函数就会把最后一个列范围设置为最后一个列标号所指定的列到行尾之间的范围。从最后一个列标号至行尾的所有字符都将被复制到输出字符串</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/04/scala_for_impatient_cp1_%20exercise/" rel="prev" title="scala for impatient chapter 1">
+      <i class="fa fa-chevron-left"></i> scala for impatient chapter 1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/17/programming-erlang-exercise-4-11/" rel="next" title="Programming Erlang exercise 4.11">
+      Programming Erlang exercise 4.11 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">1.7 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0"><span class="nav-number">2.</span> <span class="nav-text">1.8编程练习</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang Feiyue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang Feiyue</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

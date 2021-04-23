@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yfeiyue.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="####找到erlang模块手册页，你会看到它列出了大量的内置函数（远多于我们现在这里讨论过的）。可以用这些信息来解决下面列出的一些问题。 在线手册页:http:&#x2F;&#x2F;www.erlang.org&#x2F;doc&#x2F;man&#x2F;erlang.html 1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。12345678910111213141516171">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Programming Erlang exercise 4.11">
+<meta property="og:url" content="https://yfeiyue.com/2018/12/17/programming-erlang-exercise-4-11/index.html">
+<meta property="og:site_name" content="CodeMan">
+<meta property="og:description" content="####找到erlang模块手册页，你会看到它列出了大量的内置函数（远多于我们现在这里讨论过的）。可以用这些信息来解决下面列出的一些问题。 在线手册页:http:&#x2F;&#x2F;www.erlang.org&#x2F;doc&#x2F;man&#x2F;erlang.html 1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。12345678910111213141516171">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-17T15:10:00.000Z">
+<meta property="article:modified_time" content="2018-12-17T15:10:00.000Z">
+<meta property="article:author" content="Yang Feiyue">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yfeiyue.com/2018/12/17/programming-erlang-exercise-4-11/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Programming Erlang exercise 4.11 | CodeMan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CodeMan</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2018/12/17/programming-erlang-exercise-4-11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Programming Erlang exercise 4.11
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-17 23:10:00" itemprop="dateCreated datePublished" datetime="2018-12-17T23:10:00+08:00">2018-12-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Elang/" itemprop="url" rel="index"><span itemprop="name">Elang</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>####找到erlang模块手册页，你会看到它列出了大量的内置函数（远多于我们现在这里讨论过的）。可以用这些信息来解决下面列出的一些问题。</p>
+<p>在线手册页:<a target="_blank" rel="noopener" href="http://www.erlang.org/doc/man/erlang.html">http://www.erlang.org/doc/man/erlang.html</a></p>
+<h5 id="1-扩展geometry-erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。"><a href="#1-扩展geometry-erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。" class="headerlink" title="1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。"></a>1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。</h5><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% coding: latin-1</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%%</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%% Created : 14. 二月 2016 下午3:57</span></span><br><span class="line"></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(geometry)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="keyword">-import</span><span class="params">(math,[pow/<span class="number">2</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([area/<span class="number">1</span>, circum/<span class="number">1</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;rectangle, Width, Height&#125;)</span> -&gt;</span></span><br><span class="line">  Width * Height;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;square, Side&#125;)</span> -&gt;</span></span><br><span class="line">  Side * Side;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;circle, Radius&#125;)</span> -&gt;</span></span><br><span class="line">  <span class="number">3.14</span> * Radius * Radius;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;right_triangle, SideA, SideB&#125;)</span> -&gt;</span></span><br><span class="line">  SideA * SideB / <span class="number">2</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;rectangle, Width, Height&#125;)</span> -&gt;</span></span><br><span class="line">  (Width + Height) * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;square, Side&#125;)</span> -&gt;</span></span><br><span class="line">  Side * <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;circle, Radius&#125;)</span> -&gt;</span></span><br><span class="line">  <span class="number">2</span> * <span class="number">3.14</span> * Radius;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;right_triangle, SideA, SideB&#125;)</span> -&gt;</span></span><br><span class="line">  (SideA + SideB) + math:sqrt(math:pow(SideA, <span class="number">2</span>) + math:pow(SideB,<span class="number">2</span>)).</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-内置函数tuple-to-list-T-能将元组T里面的元素转换成一个列表。请编写一个名为my-tuple-to-list-T-的函数来做同样的事，但不要使用相同功能的内置函数。"><a href="#2-内置函数tuple-to-list-T-能将元组T里面的元素转换成一个列表。请编写一个名为my-tuple-to-list-T-的函数来做同样的事，但不要使用相同功能的内置函数。" class="headerlink" title="2.内置函数tuple_to_list(T)能将元组Ｔ里面的元素转换成一个列表。请编写一个名为my_tuple_to_list(T)的函数来做同样的事，但不要使用相同功能的内置函数。"></a>2.内置函数tuple_to_list(T)能将元组Ｔ里面的元素转换成一个列表。请编写一个名为my_tuple_to_list(T)的函数来做同样的事，但不要使用相同功能的内置函数。</h5><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% coding: latin-1</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%%</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%% Created : 16. 二月 2016 下午3:18</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(my_tuple_to_list)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([m_tuple_to_list/<span class="number">1</span>])</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">m_tuple_to_list</span><span class="params">(T)</span> -&gt;</span></span><br><span class="line">  m_tuple_to_list(T, tuple_size(T), []).</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">m_tuple_to_list</span><span class="params">(T, N, Result)</span> -&gt;</span></span><br><span class="line">  <span class="keyword">if</span></span><br><span class="line">    N &gt; <span class="number">0</span> -&gt; m_tuple_to_list(T, N - <span class="number">1</span>, [element(N, T) | Result]);</span><br><span class="line">    N =&lt; <span class="number">0</span> -&gt; Result</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-查看erlang-now-0、erlang-date-0和erlang-time-0的定义。编写一个名为my-time-func-F-函数，让它执行fun-F并记下执行时间。编写一个名为my-date-string-的函数，用它把当前的日期和时间改成整齐的格式。"><a href="#3-查看erlang-now-0、erlang-date-0和erlang-time-0的定义。编写一个名为my-time-func-F-函数，让它执行fun-F并记下执行时间。编写一个名为my-date-string-的函数，用它把当前的日期和时间改成整齐的格式。" class="headerlink" title="3.查看erlang:now/0、erlang:date/0和erlang:time/0的定义。编写一个名为my_time_func(F)函数，让它执行fun F并记下执行时间。编写一个名为my_date_string()的函数，用它把当前的日期和时间改成整齐的格式。"></a>3.查看erlang:now/0、erlang:date/0和erlang:time/0的定义。编写一个名为my_time_func(F)函数，让它执行fun F并记下执行时间。编写一个名为my_date_string()的函数，用它把当前的日期和时间改成整齐的格式。</h5><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% coding: latin-1</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%%</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%% Created : 16. 二月 2016 下午3:55</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(my_time)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([my_time_func/<span class="number">1</span>, my_date_string/<span class="number">0</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F = fun() -&gt; math:pow(2,1000) end.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">my_time_func</span><span class="params">(F)</span> -&gt;</span></span><br><span class="line">  &#123;G, S, M&#125; = now(),</span><br><span class="line">  F(),</span><br><span class="line">  &#123;G1, S1, M1&#125; = now(),</span><br><span class="line">  &#123;(G1 - G), (S1 - S), (M1 - M)&#125;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">my_date_string</span><span class="params">()</span> -&gt;</span></span><br><span class="line">  &#123;Year, Month, Day&#125; = date(),</span><br><span class="line">  &#123;Hour, Seconds, Minuts&#125; = time(),</span><br><span class="line">  L = tuple_to_list(&#123;integer_to_list(Year), <span class="string">&quot;-&quot;</span>, integer_to_list(Month), <span class="string">&quot;-&quot;</span>, integer_to_list(Day), <span class="string">&quot; &quot;</span>, integer_to_list(Hour), <span class="string">&quot;:&quot;</span>, integer_to_list(Seconds), <span class="string">&quot;:&quot;</span>, integer_to_list(Minuts)&#125;),</span><br><span class="line">  list_to_bitstring(L).</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="4-高级练习：查找Python-datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。"><a href="#4-高级练习：查找Python-datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。" class="headerlink" title="4.高级练习：查找Python datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。"></a>4.高级练习：查找Python datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。</h5><p>python datatime doc: <a target="_blank" rel="noopener" href="https://docs.python.org/2/library/datetime.html">https://docs.python.org/2/library/datetime.html</a></p>
+<h5 id="5-编写一个名为math-functions-erl的模块，并导出函数even-1各odd-1。even-X-函数应当在X是偶数时返回true-否则返回false-odd-X-应当在X是奇整时返回true。"><a href="#5-编写一个名为math-functions-erl的模块，并导出函数even-1各odd-1。even-X-函数应当在X是偶数时返回true-否则返回false-odd-X-应当在X是奇整时返回true。" class="headerlink" title="5.编写一个名为math_functions.erl的模块，并导出函数even/1各odd/1。even(X)函数应当在Ｘ是偶数时返回true,否则返回false.odd(X)应当在Ｘ是奇整时返回true。"></a>5.编写一个名为math_functions.erl的模块，并导出函数even/1各odd/1。even(X)函数应当在Ｘ是偶数时返回true,否则返回false.odd(X)应当在Ｘ是奇整时返回true。</h5><h5 id="6-向math-functions-erl添加一个名为filter-F-L-的高阶函数，它返回L里所有符合条件的元素X-条件是F-X-为true-。"><a href="#6-向math-functions-erl添加一个名为filter-F-L-的高阶函数，它返回L里所有符合条件的元素X-条件是F-X-为true-。" class="headerlink" title="6.向math_functions.erl添加一个名为filter(F,L)的高阶函数，它返回Ｌ里所有符合条件的元素X(条件是F(X)为true)。"></a>6.向math_functions.erl添加一个名为filter(F,L)的高阶函数，它返回Ｌ里所有符合条件的元素X(条件是F(X)为true)。</h5><h5 id="7-向math-functions-erl添加一个返回-Even-Odd-的split-L-函数，其中Even是一个包含L里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。"><a href="#7-向math-functions-erl添加一个返回-Even-Odd-的split-L-函数，其中Even是一个包含L里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。" class="headerlink" title="7.向math_functions.erl添加一个返回{Even,Odd}的split(L)函数，其中Even是一个包含Ｌ里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。"></a>7.向math_functions.erl添加一个返回{Even,Odd}的split(L)函数，其中Even是一个包含Ｌ里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。</h5>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/21/c%E4%B8%8E%E6%8C%87%E9%92%88%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/" rel="prev" title="c与指针第一章练习">
+      <i class="fa fa-chevron-left"></i> c与指针第一章练习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/21/programming-erlang-exercise-2-4/" rel="next" title="Programming Erlang exercise 2.4">
+      Programming Erlang exercise 2.4 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%89%A9%E5%B1%95geometry-erl%E3%80%82%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%BA%9B%E5%AD%90%E5%8F%A5%E6%9D%A5%E8%AE%A1%E7%AE%97%E5%9C%86%E5%92%8C%E7%9B%B4%E8%A7%92%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E9%9D%A2%E7%A7%AF%E3%80%82%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%BA%9B%E5%AD%90%E5%8F%A5%E6%9D%A5%E8%AE%A1%E7%AE%97%E5%90%84%E7%A7%8D%E5%87%A0%E4%BD%95%E5%9B%BE%E5%BD%A2%E7%9A%84%E5%91%A8%E9%95%BF%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0tuple-to-list-T-%E8%83%BD%E5%B0%86%E5%85%83%E7%BB%84T%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E8%BD%AC%E6%8D%A2%E6%88%90%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E3%80%82%E8%AF%B7%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAmy-tuple-to-list-T-%E7%9A%84%E5%87%BD%E6%95%B0%E6%9D%A5%E5%81%9A%E5%90%8C%E6%A0%B7%E7%9A%84%E4%BA%8B%EF%BC%8C%E4%BD%86%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%90%8C%E5%8A%9F%E8%83%BD%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E3%80%82"><span class="nav-number">2.</span> <span class="nav-text">2.内置函数tuple_to_list(T)能将元组Ｔ里面的元素转换成一个列表。请编写一个名为my_tuple_to_list(T)的函数来做同样的事，但不要使用相同功能的内置函数。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E6%9F%A5%E7%9C%8Berlang-now-0%E3%80%81erlang-date-0%E5%92%8Cerlang-time-0%E7%9A%84%E5%AE%9A%E4%B9%89%E3%80%82%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAmy-time-func-F-%E5%87%BD%E6%95%B0%EF%BC%8C%E8%AE%A9%E5%AE%83%E6%89%A7%E8%A1%8Cfun-F%E5%B9%B6%E8%AE%B0%E4%B8%8B%E6%89%A7%E8%A1%8C%E6%97%B6%E9%97%B4%E3%80%82%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAmy-date-string-%E7%9A%84%E5%87%BD%E6%95%B0%EF%BC%8C%E7%94%A8%E5%AE%83%E6%8A%8A%E5%BD%93%E5%89%8D%E7%9A%84%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E6%94%B9%E6%88%90%E6%95%B4%E9%BD%90%E7%9A%84%E6%A0%BC%E5%BC%8F%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">3.查看erlang:now&#x2F;0、erlang:date&#x2F;0和erlang:time&#x2F;0的定义。编写一个名为my_time_func(F)函数，让它执行fun F并记下执行时间。编写一个名为my_date_string()的函数，用它把当前的日期和时间改成整齐的格式。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E9%AB%98%E7%BA%A7%E7%BB%83%E4%B9%A0%EF%BC%9A%E6%9F%A5%E6%89%BEPython-datetime%E6%A8%A1%E5%9D%97%E7%9A%84%E6%89%8B%E5%86%8C%E9%A1%B5%E3%80%82%E6%89%BE%E5%87%BAPython%E7%9A%84datetime%E7%B1%BB%E9%87%8C%E6%9C%89%E5%A4%9A%E5%B0%91%E6%96%B9%E6%B3%95%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87erlang%E6%A8%A1%E5%9D%97%E9%87%8C%E6%9C%89%E5%B9%B6%E6%97%B6%E9%97%B4%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E3%80%82%E5%9C%A8erlang%E7%9A%84%E6%89%8B%E5%86%8C%E9%A1%B5%E9%87%8C%E6%9F%A5%E6%89%BE%E7%AD%89%E4%BB%B7%E7%9A%84%E5%87%BD%E6%95%B0%E3%80%82%E5%A6%82%E6%9E%9C%E6%9C%89%E6%98%8E%E6%98%BE%E7%9A%84%E9%81%97%E6%BC%8F%EF%BC%8C%E5%B0%B1%E5%AE%9E%E7%8E%B0%E5%AE%83%E3%80%82"><span class="nav-number">4.</span> <span class="nav-text">4.高级练习：查找Python datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAmath-functions-erl%E7%9A%84%E6%A8%A1%E5%9D%97%EF%BC%8C%E5%B9%B6%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0even-1%E5%90%84odd-1%E3%80%82even-X-%E5%87%BD%E6%95%B0%E5%BA%94%E5%BD%93%E5%9C%A8X%E6%98%AF%E5%81%B6%E6%95%B0%E6%97%B6%E8%BF%94%E5%9B%9Etrue-%E5%90%A6%E5%88%99%E8%BF%94%E5%9B%9Efalse-odd-X-%E5%BA%94%E5%BD%93%E5%9C%A8X%E6%98%AF%E5%A5%87%E6%95%B4%E6%97%B6%E8%BF%94%E5%9B%9Etrue%E3%80%82"><span class="nav-number">5.</span> <span class="nav-text">5.编写一个名为math_functions.erl的模块，并导出函数even&#x2F;1各odd&#x2F;1。even(X)函数应当在Ｘ是偶数时返回true,否则返回false.odd(X)应当在Ｘ是奇整时返回true。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-%E5%90%91math-functions-erl%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAfilter-F-L-%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%EF%BC%8C%E5%AE%83%E8%BF%94%E5%9B%9EL%E9%87%8C%E6%89%80%E6%9C%89%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%85%83%E7%B4%A0X-%E6%9D%A1%E4%BB%B6%E6%98%AFF-X-%E4%B8%BAtrue-%E3%80%82"><span class="nav-number">6.</span> <span class="nav-text">6.向math_functions.erl添加一个名为filter(F,L)的高阶函数，它返回Ｌ里所有符合条件的元素X(条件是F(X)为true)。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-%E5%90%91math-functions-erl%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E8%BF%94%E5%9B%9E-Even-Odd-%E7%9A%84split-L-%E5%87%BD%E6%95%B0%EF%BC%8C%E5%85%B6%E4%B8%ADEven%E6%98%AF%E4%B8%80%E4%B8%AA%E5%8C%85%E5%90%ABL%E9%87%8C%E6%89%80%E6%9C%89%E5%81%B6%E6%95%B0%E7%9A%84%E5%88%97%E8%A1%A8%EF%BC%8COdd%E6%98%AF%E4%B8%80%E4%B8%AA%E5%8C%85%E5%90%ABL%E9%87%8C%E6%89%80%E6%9C%89%E5%A5%87%E6%95%B0%E7%9A%84%E5%88%97%E8%A1%A8%E3%80%82%E8%AF%B7%E7%94%A8%E4%B8%A4%E9%92%8F%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BC%96%E5%86%99%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0%EF%BC%8C%E4%B8%80%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%BD%92%E9%9B%86%E5%99%A8%EF%BC%8C%E5%8F%A6%E4%B8%80%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%9C%A8%E7%BB%83%E4%B9%A06%E4%B8%AD%E7%BC%96%E5%86%99%E7%9A%84filter%E5%87%BD%E6%95%B0%E3%80%82"><span class="nav-number">7.</span> <span class="nav-text">7.向math_functions.erl添加一个返回{Even,Odd}的split(L)函数，其中Even是一个包含Ｌ里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang Feiyue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang Feiyue</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

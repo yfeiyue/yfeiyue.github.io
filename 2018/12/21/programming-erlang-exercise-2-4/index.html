@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yfeiyue.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1. 启动并停止Erlang Shell123456yfydemacbook-pro:~ yfy$ erlErlang&#x2F;OTP 18 [erts-7.2.1] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]Eshell V7.2.1  (abort with ^G)1&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Programming Erlang exercise 2.4">
+<meta property="og:url" content="https://yfeiyue.com/2018/12/21/programming-erlang-exercise-2-4/index.html">
+<meta property="og:site_name" content="CodeMan">
+<meta property="og:description" content="1. 启动并停止Erlang Shell123456yfydemacbook-pro:~ yfy$ erlErlang&#x2F;OTP 18 [erts-7.2.1] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]Eshell V7.2.1  (abort with ^G)1&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://7xnltp.com1.z0.glb.clouddn.com/blog%2FSnip20160114_1.png">
+<meta property="article:published_time" content="2018-12-21T11:10:00.000Z">
+<meta property="article:modified_time" content="2018-12-21T11:10:00.000Z">
+<meta property="article:author" content="Yang Feiyue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://7xnltp.com1.z0.glb.clouddn.com/blog%2FSnip20160114_1.png">
+
+<link rel="canonical" href="https://yfeiyue.com/2018/12/21/programming-erlang-exercise-2-4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Programming Erlang exercise 2.4 | CodeMan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CodeMan</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2018/12/21/programming-erlang-exercise-2-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Programming Erlang exercise 2.4
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-21 19:10:00" itemprop="dateCreated datePublished" datetime="2018-12-21T19:10:00+08:00">2018-12-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Elang/" itemprop="url" rel="index"><span itemprop="name">Elang</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h5 id="1-启动并停止Erlang-Shell"><a href="#1-启动并停止Erlang-Shell" class="headerlink" title="1. 启动并停止Erlang Shell"></a>1. 启动并停止Erlang Shell</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:~ yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>启动后显示的提示信息解释：</p>
+<p>Erlang/OPT 18</p>
+<ul>
+<li>Erlang Open Telecom Platform</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/erlang/otp">https://github.com/erlang/otp</a></li>
+</ul>
+<p>erts</p>
+<ul>
+<li>Erlang Run-Time System</li>
+<li><a target="_blank" rel="noopener" href="http://www.erlang.org/doc/apps/erts/">http://www.erlang.org/doc/apps/erts/</a></li>
+</ul>
+<p>smp</p>
+<ul>
+<li>Symmetrical Multi Processo</li>
+<li><a target="_blank" rel="noopener" href="http://www.erlang.org/euc/08/euc_smp.pdf">Symmetrical Multi Processo</a></li>
+</ul>
+<p>async-threads</p>
+<ul>
+<li>Async threads pool</li>
+<li></li>
+</ul>
+<p>hipe</p>
+<ul>
+<li>Hight Performance Erlang,主要是指，Hight Performance Erlang native code compiler 现在已经是Erlang/OTP的一部分.</li>
+<li><a target="_blank" rel="noopener" href="http://www.erlang.org/workshop/2003/paper/p36-sagonas.pdf">http://www.erlang.org/workshop/2003/paper/p36-sagonas.pdf</a></li>
+</ul>
+<p>kernel-poll</p>
+<ul>
+<li>是否启用内核poll模式，可以降低CPU战用就绪</li>
+</ul>
+<p>dtrace</p>
+<ul>
+<li>用于在生产环境中定位复杂的性能问题等，好处在于加入的探测点不会线上系统有任何影响。</li>
+<li><a target="_blank" rel="noopener" href="http://erlang.org/doc/apps/runtime_tools/DTRACE.html">http://erlang.org/doc/apps/runtime_tools/DTRACE.html</a></li>
+</ul>
+<h5 id="2-在erlang-shell中输入一些命令，不要忘了以句号和空白结束命令"><a href="#2-在erlang-shell中输入一些命令，不要忘了以句号和空白结束命令" class="headerlink" title="2. 在erlang shell中输入一些命令，不要忘了以句号和空白结束命令"></a>2. 在erlang shell中输入一些命令，不要忘了以句号和空白结束命令</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:~ yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; hello</span><br><span class="line">1&gt; .</span><br><span class="line">hello</span><br><span class="line">2&gt; 123.</span><br><span class="line">123</span><br><span class="line">3&gt; True.</span><br><span class="line">* 1: variable <span class="string">&#x27;True&#x27;</span> is unbound</span><br><span class="line">4&gt; <span class="literal">true</span>.</span><br><span class="line"><span class="literal">true</span></span><br><span class="line">5&gt; foo</span><br><span class="line">5&gt; .</span><br><span class="line">foo</span><br><span class="line">6&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-对hello-erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang-shell并重启shell。"><a href="#3-对hello-erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang-shell并重启shell。" class="headerlink" title="3. 对hello.erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang shell并重启shell。"></a>3. 对hello.erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang shell并重启shell。</h5><p>原hello.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">-module</span><span class="params">(hello)</span>.</span><br><span class="line"><span class="keyword">-export</span><span class="params">([start/<span class="number">0</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	io:format(<span class="string">&quot;Hello world~n&quot;</span>).</span><br></pre></td></tr></table></figure>
+
+<p>更改后hello1.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">-module</span><span class="params">(hello1)</span>.</span><br><span class="line"><span class="keyword">-export</span><span class="params">([start/<span class="number">0</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	io:format(<span class="string">&quot;Hello world~n&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>中止后重新运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:src yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; c(hello2).</span><br><span class="line">hello2.erl: no such file or directory</span><br><span class="line">error</span><br><span class="line">2&gt;</span><br><span class="line">BREAK: (a)bort (c)ontinue (p)roc info (i)nfo (l)oaded</span><br><span class="line">       (v)ersion (k)ill (D)b-tables (d)istribution</span><br><span class="line">a</span><br><span class="line">yfydemacbook-pro:src yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="4-运行客户端和服务器代码。加入一个名为put-file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。"><a href="#4-运行客户端和服务器代码。加入一个名为put-file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。" class="headerlink" title="4. 运行客户端和服务器代码。加入一个名为put_file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。"></a>4. 运行客户端和服务器代码。加入一个名为put_file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。</h5><ul>
+<li>修改后的代码</li>
+</ul>
+<p>afile_client.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(afile_client)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([ls/<span class="number">1</span>, get_file/<span class="number">2</span>,put_file/<span class="number">2</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">ls</span><span class="params">(Server)</span> -&gt;</span></span><br><span class="line">  Server ! &#123;self(), list_dir&#125;,</span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Server, FileList&#125; -&gt;</span><br><span class="line">      FileList</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">get_file</span><span class="params">(Server, File)</span> -&gt;</span></span><br><span class="line">  Server ! &#123;self(), &#123;get_file, File&#125;&#125;,</span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Server, Content&#125; -&gt;</span><br><span class="line">      Content</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">put_file</span><span class="params">(Server, File)</span> -&gt;</span></span><br><span class="line">  Server ! &#123;self(), &#123;put_file, File&#125;&#125;,</span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Server, Content&#125; -&gt;</span><br><span class="line">      Content</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>file_server.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(afile_server)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([start/<span class="number">1</span>, loop/<span class="number">1</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">(Dir)</span> -&gt;</span> spawn(afile_server, loop, [Dir]).</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">loop</span><span class="params">(Dir)</span> -&gt;</span></span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Client, list_dir&#125; -&gt;</span><br><span class="line">      Client ! &#123;self(), file:list_dir(Dir)&#125;;</span><br><span class="line">    &#123;Client, &#123;get_file, File&#125;&#125; -&gt;</span><br><span class="line">      Full = filename:join(Dir, File),</span><br><span class="line">      Client ! &#123;self(), file:read_file(Full)&#125;;</span><br><span class="line">    &#123;Client, &#123;put_file, File&#125;&#125; -&gt;</span><br><span class="line">      NewFilename = <span class="string">&quot;newfilea.txt&quot;</span>,</span><br><span class="line">      NewFull = filename:join(Dir, NewFilename),</span><br><span class="line">      Origion = filename:join(Dir, File),</span><br><span class="line">      &#123;ok,Binary&#125; = file:read_file(Origion),</span><br><span class="line">      &#123;ok,S&#125; = file:open(NewFull,[raw,write,binary]),</span><br><span class="line">      Client ! &#123;self(), file:pwrite(S,<span class="number">0</span>,Binary)&#125;</span><br><span class="line">  <span class="keyword">end</span>,</span><br><span class="line">  loop(Dir).</span><br></pre></td></tr></table></figure>
+
+<p>put_file只是把文件读出来，以另外的文件重新保存。</p>
+<ul>
+<li>查询erlang文档，阅读<a target="_blank" rel="noopener" href="http://www.erlang.org/doc/">http://www.erlang.org/doc/</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:cp2_3 yfy$ erl -man file</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调试erlang程序</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:cp2_3 yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; c(afile_server,[debug_info]).</span><br><span class="line">afile_server.erl:7: Warning: Non-UTF-8 character(s) detected, but no encoding declared. Encode the file <span class="keyword">in</span> UTF-8 or add <span class="string">&quot;%% coding: latin-1&quot;</span> at the beginning of the file. Retrying with latin-1 encoding.</span><br><span class="line">&#123;ok,afile_server&#125;</span><br><span class="line">2&gt; c(afile_server,[debug_info]).</span><br><span class="line">&#123;ok,afile_server&#125;</span><br><span class="line">3&gt; c(afile_client,[debug_info]).</span><br><span class="line">&#123;ok,afile_client&#125;</span><br><span class="line">4&gt; FileServer=debugger:quick(afile_server,start,[<span class="string">&quot;.&quot;</span>]).</span><br></pre></td></tr></table></figure>
+<p>解决Warning方法是查看erl文件中包含有中文字符。这里我直接去掉后重新编译就没有了。</p>
+<p>如需要使用debugger工具，编译方式如：c(xxx,[debug_info]). 使用debugger:quick启动debugger后界面：<br><img src="http://7xnltp.com1.z0.glb.clouddn.com/blog%2FSnip20160114_1.png" alt="debugger界面"></p>
+<p>可以在其中添加断点，调试。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/17/programming-erlang-exercise-4-11/" rel="prev" title="Programming Erlang exercise 4.11">
+      <i class="fa fa-chevron-left"></i> Programming Erlang exercise 4.11
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/13/2019-09-13/" rel="next" title="Centos Shadowsocks 客户端安装">
+      Centos Shadowsocks 客户端安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8%E5%B9%B6%E5%81%9C%E6%AD%A2Erlang-Shell"><span class="nav-number">1.</span> <span class="nav-text">1. 启动并停止Erlang Shell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%9C%A8erlang-shell%E4%B8%AD%E8%BE%93%E5%85%A5%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%BF%98%E4%BA%86%E4%BB%A5%E5%8F%A5%E5%8F%B7%E5%92%8C%E7%A9%BA%E7%99%BD%E7%BB%93%E6%9D%9F%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">2. 在erlang shell中输入一些命令，不要忘了以句号和空白结束命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%AF%B9hello-erl%E5%81%9A%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%94%B9%E5%8A%A8%EF%BC%8C%E5%9C%A8shell%E9%87%8C%E9%9D%A2%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C%E5%AE%83%E4%BB%AC%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E9%94%99%EF%BC%8C%E4%B8%AD%E6%AD%A2Erlang-shell%E5%B9%B6%E9%87%8D%E5%90%AFshell%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">3. 对hello.erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang shell并重启shell。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E8%BF%90%E8%A1%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%A3%E7%A0%81%E3%80%82%E5%8A%A0%E5%85%A5%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAput-file%E7%9A%84%E5%91%BD%E4%BB%A4%E3%80%82%E4%BD%A0%E9%9C%80%E8%A6%81%E6%B7%BB%E5%8A%A0%E4%BD%95%E7%A7%8D%E6%B6%88%E6%81%AF%EF%BC%9F%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E6%9F%A5%E9%98%85%E6%89%8B%E5%86%8C%E9%A1%B5%E3%80%82%E6%9F%A5%E9%98%85%E6%89%8B%E5%86%8C%E9%A1%B5%E9%87%8C%E7%9A%84file%E6%A8%A1%E5%9D%97%E3%80%82"><span class="nav-number">4.</span> <span class="nav-text">4. 运行客户端和服务器代码。加入一个名为put_file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang Feiyue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang Feiyue</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
