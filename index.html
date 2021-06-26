@@ -145,6 +145,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2021/06/26/2021-06-26/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/26/2021-06-26/" class="post-title-link" itemprop="url">Gitlab跨版本升级从gitlab-ee-12.7.5到gitlab-ee-14.0.1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-26 13:37:12" itemprop="dateCreated datePublished" datetime="2021-06-26T13:37:12+08:00">2021-06-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gitlab/" itemprop="url" rel="index"><span itemprop="name">Gitlab</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="查看版本号"><a href="#查看版本号" class="headerlink" title="查看版本号"></a>查看版本号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-rake gitlab:env:info</span><br></pre></td></tr></table></figure>
+
+<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure>
+
+<h3 id="升级路线"><a href="#升级路线" class="headerlink" title="升级路线"></a>升级路线</h3><p>官方路径<br>8.11.Z -&gt; 8.12.0 -&gt; 8.17.7 -&gt; 9.5.10 -&gt; 10.8.7 -&gt; 11.11.8 -&gt; 12.0.12 -&gt; 12.1.17 -&gt; 12.10.14 -&gt; 13.0.14 -&gt; 13.1.11 -&gt; latest 13.12.Z -&gt; latest 14.0.Z</p>
+<h3 id="自动备份目录"><a href="#自动备份目录" class="headerlink" title="自动备份目录"></a>自动备份目录</h3><p>/etc/gitlab/config_backup</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>当前版本：gitlab-ee-12.7.5-ee.0.el7.x86_64<br>目标版本：gitlab-ee-14.0.1-ee.0.el7.x86_64</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install gitlab-ee-12.9.5</span><br><span class="line">yum install gitlab-ee-12.10.14</span><br><span class="line">yum install gitlab-ee-13.0.14</span><br><span class="line">yum install gitlab-ee-13.1.11</span><br><span class="line">yum install gitlab-ee-13.5.4</span><br><span class="line">yum install gitlab-ee-13.6</span><br><span class="line">yum install gitlab-ee-13.6.0</span><br><span class="line">yum install gitlab-ee-13.8.0</span><br><span class="line">yum install gitlab-ee-13.9.0</span><br><span class="line">yum install gitlab-ee-13.12.0</span><br><span class="line">yum install gitlab-ee-13.12.5</span><br><span class="line">yum install gitlab-ee-14.0.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>每次升级过程中都会自动当前配置到配置备份目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ip-172-31-17-151 ~]<span class="comment"># ls /etc/gitlab/config_backup</span></span><br><span class="line">gitlab_config_1624679624_2021_06_26.tar  gitlab_config_1624682328_2021_06_26.tar  gitlab_config_1624683553_2021_06_26.tar  gitlab_config_1624684600_2021_06_26.tar</span><br><span class="line">gitlab_config_1624680821_2021_06_26.tar  gitlab_config_1624682595_2021_06_26.tar  gitlab_config_1624683960_2021_06_26.tar  gitlab_config_1624684881_2021_06_26.tar</span><br><span class="line">gitlab_config_1624681207_2021_06_26.tar  gitlab_config_1624683048_2021_06_26.tar  gitlab_config_1624684242_2021_06_26.tar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查看升级后版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">gitlab-rake gitlab:backup:create</span><br><span class="line"></span><br><span class="line">[root@ip-172-31-17-151 ~]# gitlab-rake gitlab:env:info</span><br><span class="line"></span><br><span class="line">System information</span><br><span class="line">System:</span><br><span class="line">Proxy:		no</span><br><span class="line">Current User:	git</span><br><span class="line">Using RVM:	no</span><br><span class="line">Ruby Version:	2.7.2p137</span><br><span class="line">Gem Version:	3.1.4</span><br><span class="line">Bundler Version:2.1.4</span><br><span class="line">Rake Version:	13.0.3</span><br><span class="line">Redis Version:	6.0.14</span><br><span class="line">Git Version:	2.32.0</span><br><span class="line">Sidekiq Version:5.2.9</span><br><span class="line">Go Version:	unknown</span><br><span class="line"></span><br><span class="line">GitLab information</span><br><span class="line">Version:	14.0.1-ee</span><br><span class="line">Revision:	38151bb98b6</span><br><span class="line">Directory:	&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;service&#x2F;gitlab-rails</span><br><span class="line">DB Adapter:	PostgreSQL</span><br><span class="line">DB Version:	12.4</span><br><span class="line">URL:		https:&#x2F;&#x2F;code.xxx.com</span><br><span class="line">HTTP Clone URL:	https:&#x2F;&#x2F;code.xxx.com&#x2F;some-group&#x2F;some-project.git</span><br><span class="line">SSH Clone URL:	git@code.xxx.com:some-group&#x2F;some-project.git</span><br><span class="line">Elasticsearch:	no</span><br><span class="line">Geo:		no</span><br><span class="line">Using LDAP:	no</span><br><span class="line">Using Omniauth:	yes</span><br><span class="line">Omniauth Providers:</span><br><span class="line"></span><br><span class="line">GitLab Shell</span><br><span class="line">Version:	13.19.0</span><br><span class="line">Repository storage paths:</span><br><span class="line">- default: 	&#x2F;var&#x2F;opt&#x2F;gitlab&#x2F;git-data&#x2F;repositories</span><br><span class="line">GitLab Shell path:		&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;service&#x2F;gitlab-shell</span><br><span class="line">Git:		&#x2F;opt&#x2F;gitlab&#x2F;embedded&#x2F;bin&#x2F;git</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注：整个升级过程不需要关闭Gitlab服务</p>
+<h3 id="停机"><a href="#停机" class="headerlink" title="停机"></a>停机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl stop</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl start</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2019/11/27/2019-11-27/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -949,83 +1041,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2018/12/17/programming-erlang-exercise-4-11/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yang Feiyue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CodeMan">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/17/programming-erlang-exercise-4-11/" class="post-title-link" itemprop="url">Programming Erlang exercise 4.11</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-17 23:10:00" itemprop="dateCreated datePublished" datetime="2018-12-17T23:10:00+08:00">2018-12-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Elang/" itemprop="url" rel="index"><span itemprop="name">Elang</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>####找到erlang模块手册页，你会看到它列出了大量的内置函数（远多于我们现在这里讨论过的）。可以用这些信息来解决下面列出的一些问题。</p>
-<p>在线手册页:<a target="_blank" rel="noopener" href="http://www.erlang.org/doc/man/erlang.html">http://www.erlang.org/doc/man/erlang.html</a></p>
-<h5 id="1-扩展geometry-erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。"><a href="#1-扩展geometry-erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。" class="headerlink" title="1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。"></a>1.扩展geometry.erl。添加一些子句来计算圆和直角三角形的面积。添加一些子句来计算各种几何图形的周长。</h5><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% coding: latin-1</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%%</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%% Created : 14. 二月 2016 下午3:57</span></span><br><span class="line"></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(geometry)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="keyword">-import</span><span class="params">(math,[pow/<span class="number">2</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([area/<span class="number">1</span>, circum/<span class="number">1</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;rectangle, Width, Height&#125;)</span> -&gt;</span></span><br><span class="line">  Width * Height;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;square, Side&#125;)</span> -&gt;</span></span><br><span class="line">  Side * Side;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;circle, Radius&#125;)</span> -&gt;</span></span><br><span class="line">  <span class="number">3.14</span> * Radius * Radius;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">area</span><span class="params">(&#123;right_triangle, SideA, SideB&#125;)</span> -&gt;</span></span><br><span class="line">  SideA * SideB / <span class="number">2</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;rectangle, Width, Height&#125;)</span> -&gt;</span></span><br><span class="line">  (Width + Height) * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;square, Side&#125;)</span> -&gt;</span></span><br><span class="line">  Side * <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;circle, Radius&#125;)</span> -&gt;</span></span><br><span class="line">  <span class="number">2</span> * <span class="number">3.14</span> * Radius;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">circum</span><span class="params">(&#123;right_triangle, SideA, SideB&#125;)</span> -&gt;</span></span><br><span class="line">  (SideA + SideB) + math:sqrt(math:pow(SideA, <span class="number">2</span>) + math:pow(SideB,<span class="number">2</span>)).</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="2-内置函数tuple-to-list-T-能将元组T里面的元素转换成一个列表。请编写一个名为my-tuple-to-list-T-的函数来做同样的事，但不要使用相同功能的内置函数。"><a href="#2-内置函数tuple-to-list-T-能将元组T里面的元素转换成一个列表。请编写一个名为my-tuple-to-list-T-的函数来做同样的事，但不要使用相同功能的内置函数。" class="headerlink" title="2.内置函数tuple_to_list(T)能将元组Ｔ里面的元素转换成一个列表。请编写一个名为my_tuple_to_list(T)的函数来做同样的事，但不要使用相同功能的内置函数。"></a>2.内置函数tuple_to_list(T)能将元组Ｔ里面的元素转换成一个列表。请编写一个名为my_tuple_to_list(T)的函数来做同样的事，但不要使用相同功能的内置函数。</h5><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% coding: latin-1</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%%</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%% Created : 16. 二月 2016 下午3:18</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(my_tuple_to_list)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([m_tuple_to_list/<span class="number">1</span>])</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">m_tuple_to_list</span><span class="params">(T)</span> -&gt;</span></span><br><span class="line">  m_tuple_to_list(T, tuple_size(T), []).</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">m_tuple_to_list</span><span class="params">(T, N, Result)</span> -&gt;</span></span><br><span class="line">  <span class="keyword">if</span></span><br><span class="line">    N &gt; <span class="number">0</span> -&gt; m_tuple_to_list(T, N - <span class="number">1</span>, [element(N, T) | Result]);</span><br><span class="line">    N =&lt; <span class="number">0</span> -&gt; Result</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="3-查看erlang-now-0、erlang-date-0和erlang-time-0的定义。编写一个名为my-time-func-F-函数，让它执行fun-F并记下执行时间。编写一个名为my-date-string-的函数，用它把当前的日期和时间改成整齐的格式。"><a href="#3-查看erlang-now-0、erlang-date-0和erlang-time-0的定义。编写一个名为my-time-func-F-函数，让它执行fun-F并记下执行时间。编写一个名为my-date-string-的函数，用它把当前的日期和时间改成整齐的格式。" class="headerlink" title="3.查看erlang:now/0、erlang:date/0和erlang:time/0的定义。编写一个名为my_time_func(F)函数，让它执行fun F并记下执行时间。编写一个名为my_date_string()的函数，用它把当前的日期和时间改成整齐的格式。"></a>3.查看erlang:now/0、erlang:date/0和erlang:time/0的定义。编写一个名为my_time_func(F)函数，让它执行fun F并记下执行时间。编写一个名为my_date_string()的函数，用它把当前的日期和时间改成整齐的格式。</h5><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% coding: latin-1</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%%</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%% Created : 16. 二月 2016 下午3:55</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(my_time)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([my_time_func/<span class="number">1</span>, my_date_string/<span class="number">0</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F = fun() -&gt; math:pow(2,1000) end.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">my_time_func</span><span class="params">(F)</span> -&gt;</span></span><br><span class="line">  &#123;G, S, M&#125; = now(),</span><br><span class="line">  F(),</span><br><span class="line">  &#123;G1, S1, M1&#125; = now(),</span><br><span class="line">  &#123;(G1 - G), (S1 - S), (M1 - M)&#125;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">my_date_string</span><span class="params">()</span> -&gt;</span></span><br><span class="line">  &#123;Year, Month, Day&#125; = date(),</span><br><span class="line">  &#123;Hour, Seconds, Minuts&#125; = time(),</span><br><span class="line">  L = tuple_to_list(&#123;integer_to_list(Year), <span class="string">&quot;-&quot;</span>, integer_to_list(Month), <span class="string">&quot;-&quot;</span>, integer_to_list(Day), <span class="string">&quot; &quot;</span>, integer_to_list(Hour), <span class="string">&quot;:&quot;</span>, integer_to_list(Seconds), <span class="string">&quot;:&quot;</span>, integer_to_list(Minuts)&#125;),</span><br><span class="line">  list_to_bitstring(L).</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="4-高级练习：查找Python-datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。"><a href="#4-高级练习：查找Python-datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。" class="headerlink" title="4.高级练习：查找Python datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。"></a>4.高级练习：查找Python datetime模块的手册页。找出Python的datetime类里有多少方法可以通过erlang模块里有并时间的内置函数实现。在erlang的手册页里查找等价的函数。如果有明显的遗漏，就实现它。</h5><p>python datatime doc: <a target="_blank" rel="noopener" href="https://docs.python.org/2/library/datetime.html">https://docs.python.org/2/library/datetime.html</a></p>
-<h5 id="5-编写一个名为math-functions-erl的模块，并导出函数even-1各odd-1。even-X-函数应当在X是偶数时返回true-否则返回false-odd-X-应当在X是奇整时返回true。"><a href="#5-编写一个名为math-functions-erl的模块，并导出函数even-1各odd-1。even-X-函数应当在X是偶数时返回true-否则返回false-odd-X-应当在X是奇整时返回true。" class="headerlink" title="5.编写一个名为math_functions.erl的模块，并导出函数even/1各odd/1。even(X)函数应当在Ｘ是偶数时返回true,否则返回false.odd(X)应当在Ｘ是奇整时返回true。"></a>5.编写一个名为math_functions.erl的模块，并导出函数even/1各odd/1。even(X)函数应当在Ｘ是偶数时返回true,否则返回false.odd(X)应当在Ｘ是奇整时返回true。</h5><h5 id="6-向math-functions-erl添加一个名为filter-F-L-的高阶函数，它返回L里所有符合条件的元素X-条件是F-X-为true-。"><a href="#6-向math-functions-erl添加一个名为filter-F-L-的高阶函数，它返回L里所有符合条件的元素X-条件是F-X-为true-。" class="headerlink" title="6.向math_functions.erl添加一个名为filter(F,L)的高阶函数，它返回Ｌ里所有符合条件的元素X(条件是F(X)为true)。"></a>6.向math_functions.erl添加一个名为filter(F,L)的高阶函数，它返回Ｌ里所有符合条件的元素X(条件是F(X)为true)。</h5><h5 id="7-向math-functions-erl添加一个返回-Even-Odd-的split-L-函数，其中Even是一个包含L里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。"><a href="#7-向math-functions-erl添加一个返回-Even-Odd-的split-L-函数，其中Even是一个包含L里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。" class="headerlink" title="7.向math_functions.erl添加一个返回{Even,Odd}的split(L)函数，其中Even是一个包含Ｌ里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。"></a>7.向math_functions.erl添加一个返回{Even,Odd}的split(L)函数，其中Even是一个包含Ｌ里所有偶数的列表，Odd是一个包含L里所有奇数的列表。请用两钏不同的方式编写这个函数，一种使用归集器，另一种使用在练习6中编写的filter函数。</h5>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1095,13 +1110,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
