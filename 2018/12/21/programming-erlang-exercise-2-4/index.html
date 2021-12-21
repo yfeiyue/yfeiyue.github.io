@@ -27,12 +27,10 @@
 <meta property="og:site_name" content="CodeMan">
 <meta property="og:description" content="1. 启动并停止Erlang Shell123456yfydemacbook-pro:~ yfy$ erlErlang&#x2F;OTP 18 [erts-7.2.1] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]Eshell V7.2.1  (abort with ^G)1&gt;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://7xnltp.com1.z0.glb.clouddn.com/blog%2FSnip20160114_1.png">
 <meta property="article:published_time" content="2018-12-21T11:10:00.000Z">
 <meta property="article:modified_time" content="2018-12-21T11:10:00.000Z">
 <meta property="article:author" content="Yang Feiyue">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://7xnltp.com1.z0.glb.clouddn.com/blog%2FSnip20160114_1.png">
 
 <link rel="canonical" href="https://yfeiyue.com/2018/12/21/programming-erlang-exercise-2-4/">
 
@@ -269,7 +267,7 @@
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:cp2_3 yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; c(afile_server,[debug_info]).</span><br><span class="line">afile_server.erl:7: Warning: Non-UTF-8 character(s) detected, but no encoding declared. Encode the file <span class="keyword">in</span> UTF-8 or add <span class="string">&quot;%% coding: latin-1&quot;</span> at the beginning of the file. Retrying with latin-1 encoding.</span><br><span class="line">&#123;ok,afile_server&#125;</span><br><span class="line">2&gt; c(afile_server,[debug_info]).</span><br><span class="line">&#123;ok,afile_server&#125;</span><br><span class="line">3&gt; c(afile_client,[debug_info]).</span><br><span class="line">&#123;ok,afile_client&#125;</span><br><span class="line">4&gt; FileServer=debugger:quick(afile_server,start,[<span class="string">&quot;.&quot;</span>]).</span><br></pre></td></tr></table></figure>
 <p>解决Warning方法是查看erl文件中包含有中文字符。这里我直接去掉后重新编译就没有了。</p>
-<p>如需要使用debugger工具，编译方式如：c(xxx,[debug_info]). 使用debugger:quick启动debugger后界面：<br><img src="http://7xnltp.com1.z0.glb.clouddn.com/blog%2FSnip20160114_1.png" alt="debugger界面"></p>
+<p>如需要使用debugger工具，编译方式如：c(xxx,[debug_info]). 使用debugger:quick启动debugger后界面：<br><img src="" alt="debugger界面"></p>
 <p>可以在其中添加断点，调试。</p>
 
     </div>
@@ -365,13 +363,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>

@@ -146,6 +146,258 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2019/09/13/2019-09-13/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/13/2019-09-13/" class="post-title-link" itemprop="url">Centos Shadowsocks 客户端安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-13 12:55:29" itemprop="dateCreated datePublished" datetime="2019-09-13T12:55:29+08:00">2019-09-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Shadowsocks客户端安装"><a href="#Shadowsocks客户端安装" class="headerlink" title="Shadowsocks客户端安装"></a>Shadowsocks客户端安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install python-pip</span><br><span class="line">pip install shadowsocks</span><br><span class="line">mkdir /etc/shadowsocks</span><br><span class="line">vi /etc/shadowsocks/shadowsocks.json</span><br></pre></td></tr></table></figure>
+
+
+<p>加入配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">    <span class="string">&quot;server&quot;</span>:<span class="string">&quot;xxx.xxx.xxx.xxx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;server_port&quot;</span>:<span class="number">993</span>,</span><br><span class="line">    <span class="string">&quot;local_address&quot;</span>: <span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;local_port&quot;</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="string">&quot;password&quot;</span>:<span class="string">&quot;xxx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;timeout&quot;</span>:<span class="number">600</span>,</span><br><span class="line">    <span class="string">&quot;method&quot;</span>:<span class="string">&quot;chacha20-ietf-poly1305&quot;</span>,</span><br><span class="line">    <span class="string">&quot;fast_open&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">&quot;workers&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>启动脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/systemd/system/shadowsocks.service</span><br></pre></td></tr></table></figure>
+
+<p>内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Shadowsocks</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec&#x3D;0</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;sslocal -c &#x2F;etc&#x2F;shadowsocks&#x2F;shadowsocks.json</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>具体常用操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> shadowsocks.service</span><br><span class="line">systemctl start shadowsocks.service</span><br><span class="line">systemctl status shadowsocks.service</span><br><span class="line">systemctl stop shadowsocks.service</span><br></pre></td></tr></table></figure>
+
+<p>检查shadowsock客户端是否安装正常：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">curl --socks5 127.0.0.1:1080 http://httpbin.org/ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>返回结果如下：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line">&quot;origin&quot;: &quot;x.x.x.x&quot; #你的Shadowsock服务器IP</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h1 id="安装配置privoxy"><a href="#安装配置privoxy" class="headerlink" title="安装配置privoxy"></a>安装配置privoxy</h1><p>安装privoxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install privoxy -y</span><br><span class="line">systemctl <span class="built_in">enable</span> privoxy</span><br><span class="line">systemctl start privoxy</span><br><span class="line">systemctl status privoxy</span><br><span class="line">systemctl stop privoxy</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置privoxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/privoxy/config</span><br></pre></td></tr></table></figure>
+
+<p>修改配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen-address 127.0.0.1:8118 # 8118 是默认端口，不用改</span><br><span class="line">forward-socks5t &#x2F; 127.0.0.1:1080 . #转发到本地端口，注意最</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile </span><br></pre></td></tr></table></figure>
+
+<p>加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:8118</span><br><span class="line">export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:8118</span><br><span class="line">export no_proxy&#x3D;localhost,127.0.0.1</span><br><span class="line"></span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  cip.cc</span><br></pre></td></tr></table></figure>
+
+<h1 id="ERROR-method-chacha20-ietf-poly1305-not-supported-解决"><a href="#ERROR-method-chacha20-ietf-poly1305-not-supported-解决" class="headerlink" title="ERROR method chacha20-ietf-poly1305 not supported 解决"></a>ERROR method chacha20-ietf-poly1305 not supported 解决</h1><p>大部分文章都说按以下命令就能解决这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">yum install libsodium -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然而这样真没什么用，正确的解决办法是重新安装shadowsocks来解决这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pip install https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks&#x2F;archive&#x2F;master.zip -U</span><br><span class="line">Collecting https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks&#x2F;archive&#x2F;master.zip</span><br><span class="line">  Downloading https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks&#x2F;archive&#x2F;master.zip (115kB)</span><br><span class="line">    100% |████████████████████████████████| 122kB 871kB&#x2F;s</span><br><span class="line">Installing collected packages: shadowsocks</span><br><span class="line">  Found existing installation: shadowsocks 2.8.2</span><br><span class="line">    Uninstalling shadowsocks-2.8.2:</span><br><span class="line">      Successfully uninstalled shadowsocks-2.8.2</span><br><span class="line">  Running setup.py install for shadowsocks ... done</span><br><span class="line">Successfully installed shadowsocks-3.0.0</span><br><span class="line">You are using pip version 8.1.2, however version 19.1.1 is available.</span><br><span class="line">You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2018/12/21/programming-erlang-exercise-2-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/21/programming-erlang-exercise-2-4/" class="post-title-link" itemprop="url">Programming Erlang exercise 2.4</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-21 19:10:00" itemprop="dateCreated datePublished" datetime="2018-12-21T19:10:00+08:00">2018-12-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Elang/" itemprop="url" rel="index"><span itemprop="name">Elang</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h5 id="1-启动并停止Erlang-Shell"><a href="#1-启动并停止Erlang-Shell" class="headerlink" title="1. 启动并停止Erlang Shell"></a>1. 启动并停止Erlang Shell</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:~ yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>启动后显示的提示信息解释：</p>
+<p>Erlang/OPT 18</p>
+<ul>
+<li>Erlang Open Telecom Platform</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/erlang/otp">https://github.com/erlang/otp</a></li>
+</ul>
+<p>erts</p>
+<ul>
+<li>Erlang Run-Time System</li>
+<li><a target="_blank" rel="noopener" href="http://www.erlang.org/doc/apps/erts/">http://www.erlang.org/doc/apps/erts/</a></li>
+</ul>
+<p>smp</p>
+<ul>
+<li>Symmetrical Multi Processo</li>
+<li><a target="_blank" rel="noopener" href="http://www.erlang.org/euc/08/euc_smp.pdf">Symmetrical Multi Processo</a></li>
+</ul>
+<p>async-threads</p>
+<ul>
+<li>Async threads pool</li>
+<li></li>
+</ul>
+<p>hipe</p>
+<ul>
+<li>Hight Performance Erlang,主要是指，Hight Performance Erlang native code compiler 现在已经是Erlang/OTP的一部分.</li>
+<li><a target="_blank" rel="noopener" href="http://www.erlang.org/workshop/2003/paper/p36-sagonas.pdf">http://www.erlang.org/workshop/2003/paper/p36-sagonas.pdf</a></li>
+</ul>
+<p>kernel-poll</p>
+<ul>
+<li>是否启用内核poll模式，可以降低CPU战用就绪</li>
+</ul>
+<p>dtrace</p>
+<ul>
+<li>用于在生产环境中定位复杂的性能问题等，好处在于加入的探测点不会线上系统有任何影响。</li>
+<li><a target="_blank" rel="noopener" href="http://erlang.org/doc/apps/runtime_tools/DTRACE.html">http://erlang.org/doc/apps/runtime_tools/DTRACE.html</a></li>
+</ul>
+<h5 id="2-在erlang-shell中输入一些命令，不要忘了以句号和空白结束命令"><a href="#2-在erlang-shell中输入一些命令，不要忘了以句号和空白结束命令" class="headerlink" title="2. 在erlang shell中输入一些命令，不要忘了以句号和空白结束命令"></a>2. 在erlang shell中输入一些命令，不要忘了以句号和空白结束命令</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:~ yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; hello</span><br><span class="line">1&gt; .</span><br><span class="line">hello</span><br><span class="line">2&gt; 123.</span><br><span class="line">123</span><br><span class="line">3&gt; True.</span><br><span class="line">* 1: variable <span class="string">&#x27;True&#x27;</span> is unbound</span><br><span class="line">4&gt; <span class="literal">true</span>.</span><br><span class="line"><span class="literal">true</span></span><br><span class="line">5&gt; foo</span><br><span class="line">5&gt; .</span><br><span class="line">foo</span><br><span class="line">6&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-对hello-erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang-shell并重启shell。"><a href="#3-对hello-erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang-shell并重启shell。" class="headerlink" title="3. 对hello.erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang shell并重启shell。"></a>3. 对hello.erl做一些小改动，在shell里面编译并运行它们，如果有错，中止Erlang shell并重启shell。</h5><p>原hello.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">-module</span><span class="params">(hello)</span>.</span><br><span class="line"><span class="keyword">-export</span><span class="params">([start/<span class="number">0</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	io:format(<span class="string">&quot;Hello world~n&quot;</span>).</span><br></pre></td></tr></table></figure>
+
+<p>更改后hello1.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">-module</span><span class="params">(hello1)</span>.</span><br><span class="line"><span class="keyword">-export</span><span class="params">([start/<span class="number">0</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	io:format(<span class="string">&quot;Hello world~n&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>中止后重新运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:src yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; c(hello2).</span><br><span class="line">hello2.erl: no such file or directory</span><br><span class="line">error</span><br><span class="line">2&gt;</span><br><span class="line">BREAK: (a)bort (c)ontinue (p)roc info (i)nfo (l)oaded</span><br><span class="line">       (v)ersion (k)ill (D)b-tables (d)istribution</span><br><span class="line">a</span><br><span class="line">yfydemacbook-pro:src yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="4-运行客户端和服务器代码。加入一个名为put-file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。"><a href="#4-运行客户端和服务器代码。加入一个名为put-file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。" class="headerlink" title="4. 运行客户端和服务器代码。加入一个名为put_file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。"></a>4. 运行客户端和服务器代码。加入一个名为put_file的命令。你需要添加何种消息？学习如何查阅手册页。查阅手册页里的file模块。</h5><ul>
+<li>修改后的代码</li>
+</ul>
+<p>afile_client.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(afile_client)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([ls/<span class="number">1</span>, get_file/<span class="number">2</span>,put_file/<span class="number">2</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">ls</span><span class="params">(Server)</span> -&gt;</span></span><br><span class="line">  Server ! &#123;self(), list_dir&#125;,</span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Server, FileList&#125; -&gt;</span><br><span class="line">      FileList</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">get_file</span><span class="params">(Server, File)</span> -&gt;</span></span><br><span class="line">  Server ! &#123;self(), &#123;get_file, File&#125;&#125;,</span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Server, Content&#125; -&gt;</span><br><span class="line">      Content</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">put_file</span><span class="params">(Server, File)</span> -&gt;</span></span><br><span class="line">  Server ! &#123;self(), &#123;put_file, File&#125;&#125;,</span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Server, Content&#125; -&gt;</span><br><span class="line">      Content</span><br><span class="line">  <span class="keyword">end</span>.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>file_server.erl</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%%% @author yfy</span></span><br><span class="line"><span class="comment">%%% @copyright (C) 2016, &lt;COMPANY&gt;</span></span><br><span class="line"><span class="comment">%%% @doc</span></span><br><span class="line"><span class="comment">%%% @end</span></span><br><span class="line"><span class="comment">%%%-------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">-module</span><span class="params">(afile_server)</span>.</span><br><span class="line"><span class="keyword">-author</span><span class="params">(<span class="string">&quot;yfy&quot;</span>)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% API</span></span><br><span class="line"><span class="keyword">-export</span><span class="params">([start/<span class="number">1</span>, loop/<span class="number">1</span>])</span>.</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">(Dir)</span> -&gt;</span> spawn(afile_server, loop, [Dir]).</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">loop</span><span class="params">(Dir)</span> -&gt;</span></span><br><span class="line">  <span class="keyword">receive</span></span><br><span class="line">    &#123;Client, list_dir&#125; -&gt;</span><br><span class="line">      Client ! &#123;self(), file:list_dir(Dir)&#125;;</span><br><span class="line">    &#123;Client, &#123;get_file, File&#125;&#125; -&gt;</span><br><span class="line">      Full = filename:join(Dir, File),</span><br><span class="line">      Client ! &#123;self(), file:read_file(Full)&#125;;</span><br><span class="line">    &#123;Client, &#123;put_file, File&#125;&#125; -&gt;</span><br><span class="line">      NewFilename = <span class="string">&quot;newfilea.txt&quot;</span>,</span><br><span class="line">      NewFull = filename:join(Dir, NewFilename),</span><br><span class="line">      Origion = filename:join(Dir, File),</span><br><span class="line">      &#123;ok,Binary&#125; = file:read_file(Origion),</span><br><span class="line">      &#123;ok,S&#125; = file:open(NewFull,[raw,write,binary]),</span><br><span class="line">      Client ! &#123;self(), file:pwrite(S,<span class="number">0</span>,Binary)&#125;</span><br><span class="line">  <span class="keyword">end</span>,</span><br><span class="line">  loop(Dir).</span><br></pre></td></tr></table></figure>
+
+<p>put_file只是把文件读出来，以另外的文件重新保存。</p>
+<ul>
+<li>查询erlang文档，阅读<a target="_blank" rel="noopener" href="http://www.erlang.org/doc/">http://www.erlang.org/doc/</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:cp2_3 yfy$ erl -man file</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调试erlang程序</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yfydemacbook-pro:cp2_3 yfy$ erl</span><br><span class="line">Erlang/OTP 18 [erts-7.2.1] [<span class="built_in">source</span>] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:<span class="literal">false</span>] [dtrace]</span><br><span class="line"></span><br><span class="line">Eshell V7.2.1  (abort with ^G)</span><br><span class="line">1&gt; c(afile_server,[debug_info]).</span><br><span class="line">afile_server.erl:7: Warning: Non-UTF-8 character(s) detected, but no encoding declared. Encode the file <span class="keyword">in</span> UTF-8 or add <span class="string">&quot;%% coding: latin-1&quot;</span> at the beginning of the file. Retrying with latin-1 encoding.</span><br><span class="line">&#123;ok,afile_server&#125;</span><br><span class="line">2&gt; c(afile_server,[debug_info]).</span><br><span class="line">&#123;ok,afile_server&#125;</span><br><span class="line">3&gt; c(afile_client,[debug_info]).</span><br><span class="line">&#123;ok,afile_client&#125;</span><br><span class="line">4&gt; FileServer=debugger:quick(afile_server,start,[<span class="string">&quot;.&quot;</span>]).</span><br></pre></td></tr></table></figure>
+<p>解决Warning方法是查看erl文件中包含有中文字符。这里我直接去掉后重新编译就没有了。</p>
+<p>如需要使用debugger工具，编译方式如：c(xxx,[debug_info]). 使用debugger:quick启动debugger后界面：<br><img src="" alt="debugger界面"></p>
+<p>可以在其中添加断点，调试。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2018/12/17/programming-erlang-exercise-4-11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -932,13 +1184,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
