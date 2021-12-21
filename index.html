@@ -146,76 +146,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2021/10/15/2021-10-15/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yang Feiyue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CodeMan">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/15/2021-10-15/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-10-15 14:43:01 / 修改时间：18:11:35" itemprop="dateCreated datePublished" datetime="2021-10-15T14:43:01+08:00">2021-10-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Part-I-Storage-Engines"><a href="#Part-I-Storage-Engines" class="headerlink" title="Part I. Storage Engines"></a>Part I. Storage Engines</h1><p>The primary job of any database management system is reliably storing data and making it available for users. </p>
-<p>We use databases as a primary source of data, helping us to share it between the different parts of our applications. </p>
-<p>Instead of finding a way to store and retrieve information and inventing a new way to organize data every time we create a new app, we use databases. </p>
-<p>This way we can concentrate on application logic instead of infrastructure.</p>
-<p>任何数据库管理系统的首要任务就是可靠地存储数据以为用户所用。我们使用数据库做为主要的数据源帮助我们在应用程序的不同部分分享数据。相比于每次在创建应用时寻找一种新的方法来存储读取管理信息，我们使用数据库。这种方法能使我们把注意力集中在应用逻辑而不是基础设施上。</p>
-<p>Since the term database management system (DBMS) is quite bulky, throughout this book we use more compact terms, database system and database, to refer to the same concept.<br>由于数据库管理系统（DBMS）这个术语较为庞杂，本书中我们使用更简洁的术语，即数据库系统和数据库存，来表述这同一概念。</p>
-<p>Databases are modular systems and consist of multiple parts: a transport layer accepting requests, a query processor determining the most efficient way to run queries, an execution engine carrying out the operations, and a storage engine (see “DBMS Architecture”).<br>数据库是模块化的系统它通常由多个部分组成：接受请求的传输层，用来确定最有效查询方法的查询处理器，执行操作的执行引擎以及存储引擎（参考“DBMS架构”）</p>
-<p>The storage engine (or database engine) is a software component of a database management system responsible for storing, retrieving, and managing data in memory and on disk, designed to capture a persistent, long-term memory of each node [REED78]. While databases can respond to complex queries, storage engines look at the data more granularly and offer a simple data manipulation API, allowing users to create, update, delete, and retrieve records. One way to look at this is that database management systems are applications built on top of storage engines, offering a schema, a query language, indexing, transactions, and many other useful features.<br>存储引擎（或数据库引擎）是数据库管理系统负责在内存和磁盘中存储查询以及管理数据的组件，为了捕获持续的长期的各节点内存。同时能对复杂查询存储做回响应，存储引擎提供更细粒度的查询以及提供简单的数据操作API同时返回记录。一种观点是数据库管理系统是一种构建在存储引擎，提供数据结构，查询语言，索引，事务以及其它特性之上的应用程序。</p>
-<p>For flexibility, both keys and values can be arbitrary sequences of bytes with no prescribed form. Their sorting and representation semantics are defined in higher-level subsystems. For example, you can use int32 (32-bit integer) as a key in one of the tables, and ascii (ASCII string) in the other; from the storage engine perspective both keys are just serialized entries.<br>对于灵活性，健与值都能够被强制转换为未明确规定的字节序列。它们的存储及展示语义被定义在更高层级的子系统。比如，你可以使用int32（32位int）作为表中的健，同时使用ascii(ASCII字符串)在其它表中；从存储引擎角度看两个key都是被序列化项。</p>
-<p>Storage engines such as BerkeleyDB, LevelDB and its descendant RocksDB, LMDB and its descendant libmdbx, Sophia, HaloDB, and many others were developed independently from the database management systems they’re now embedded into. Using pluggable storage engines has enabled database developers to bootstrap database systems using existing storage engines, and concentrate on the other subsystems.</p>
-<p>存储引擎比如BerkeleyDB, LevelDB以及它的派生数据库存RocksDB, LMDB和它的衍生数据库：libmdbx, Sophia, HaloDB等许多其它独立开发的数据库管理系统，它们已经嵌入存储引擎。使用可插拔的存储引擎可以使数据库开发者使用已存在的存储引擎来开发数据库系统，把精力集中到其它的子系统。</p>
-<p>At the same time, clear separation between database system components opens up an opportunity to switch between different engines, potentially better suited for particular use cases. For example, MySQL, a popular database management system, has several storage engines, including InnoDB, MyISAM, and RocksDB (in the MyRocks distribution). MongoDB allows switching between WiredTiger, In-Memory, and the (now-deprecated) MMAPv1 storage engines.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2021/06/26/2021-06-26/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -961,6 +891,120 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yfeiyue.com/2019/09/13/2019-09-13/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Feiyue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CodeMan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/13/2019-09-13/" class="post-title-link" itemprop="url">Centos Shadowsocks 客户端安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-13 12:55:29" itemprop="dateCreated datePublished" datetime="2019-09-13T12:55:29+08:00">2019-09-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Shadowsocks客户端安装"><a href="#Shadowsocks客户端安装" class="headerlink" title="Shadowsocks客户端安装"></a>Shadowsocks客户端安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install python-pip</span><br><span class="line">pip install shadowsocks</span><br><span class="line">mkdir /etc/shadowsocks</span><br><span class="line">vi /etc/shadowsocks/shadowsocks.json</span><br></pre></td></tr></table></figure>
+
+
+<p>加入配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">    <span class="string">&quot;server&quot;</span>:<span class="string">&quot;xxx.xxx.xxx.xxx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;server_port&quot;</span>:<span class="number">993</span>,</span><br><span class="line">    <span class="string">&quot;local_address&quot;</span>: <span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;local_port&quot;</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="string">&quot;password&quot;</span>:<span class="string">&quot;xxx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;timeout&quot;</span>:<span class="number">600</span>,</span><br><span class="line">    <span class="string">&quot;method&quot;</span>:<span class="string">&quot;chacha20-ietf-poly1305&quot;</span>,</span><br><span class="line">    <span class="string">&quot;fast_open&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">&quot;workers&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>启动脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/systemd/system/shadowsocks.service</span><br></pre></td></tr></table></figure>
+
+<p>内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Shadowsocks</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec&#x3D;0</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;sslocal -c &#x2F;etc&#x2F;shadowsocks&#x2F;shadowsocks.json</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>具体常用操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> shadowsocks.service</span><br><span class="line">systemctl start shadowsocks.service</span><br><span class="line">systemctl status shadowsocks.service</span><br><span class="line">systemctl stop shadowsocks.service</span><br></pre></td></tr></table></figure>
+
+<p>检查shadowsock客户端是否安装正常：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">curl --socks5 127.0.0.1:1080 http://httpbin.org/ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>返回结果如下：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line">&quot;origin&quot;: &quot;x.x.x.x&quot; #你的Shadowsock服务器IP</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h1 id="安装配置privoxy"><a href="#安装配置privoxy" class="headerlink" title="安装配置privoxy"></a>安装配置privoxy</h1><p>安装privoxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install privoxy -y</span><br><span class="line">systemctl <span class="built_in">enable</span> privoxy</span><br><span class="line">systemctl start privoxy</span><br><span class="line">systemctl status privoxy</span><br><span class="line">systemctl stop privoxy</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置privoxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/privoxy/config</span><br></pre></td></tr></table></figure>
+
+<p>修改配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen-address 127.0.0.1:8118 # 8118 是默认端口，不用改</span><br><span class="line">forward-socks5t &#x2F; 127.0.0.1:1080 . #转发到本地端口，注意最</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile </span><br></pre></td></tr></table></figure>
+
+<p>加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:8118</span><br><span class="line">export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:8118</span><br><span class="line">export no_proxy&#x3D;localhost,127.0.0.1</span><br><span class="line"></span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  cip.cc</span><br></pre></td></tr></table></figure>
+
+<h1 id="ERROR-method-chacha20-ietf-poly1305-not-supported-解决"><a href="#ERROR-method-chacha20-ietf-poly1305-not-supported-解决" class="headerlink" title="ERROR method chacha20-ietf-poly1305 not supported 解决"></a>ERROR method chacha20-ietf-poly1305 not supported 解决</h1><p>大部分文章都说按以下命令就能解决这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">yum install libsodium -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然而这样真没什么用，正确的解决办法是重新安装shadowsocks来解决这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pip install https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks&#x2F;archive&#x2F;master.zip -U</span><br><span class="line">Collecting https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks&#x2F;archive&#x2F;master.zip</span><br><span class="line">  Downloading https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks&#x2F;archive&#x2F;master.zip (115kB)</span><br><span class="line">    100% |████████████████████████████████| 122kB 871kB&#x2F;s</span><br><span class="line">Installing collected packages: shadowsocks</span><br><span class="line">  Found existing installation: shadowsocks 2.8.2</span><br><span class="line">    Uninstalling shadowsocks-2.8.2:</span><br><span class="line">      Successfully uninstalled shadowsocks-2.8.2</span><br><span class="line">  Running setup.py install for shadowsocks ... done</span><br><span class="line">Successfully installed shadowsocks-3.0.0</span><br><span class="line">You are using pip version 8.1.2, however version 19.1.1 is available.</span><br><span class="line">You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1030,7 +1074,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
